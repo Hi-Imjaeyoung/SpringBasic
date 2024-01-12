@@ -1,10 +1,13 @@
 package com.encore.basic.controller;
 
 import com.encore.basic.domain.Hello;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 //HTTP 통신을 매우 편하게 할 수 있다
 @Controller
@@ -27,6 +30,7 @@ public class HelloController {
     }
 
 
+    // java에서 했던 것 처럼, ObjectMapper를 사용하여 직렬화 역직렬화를 수행해준다.
     @GetMapping("json")
     @ResponseBody
     public Hello helloJson(){
@@ -60,5 +64,75 @@ public class HelloController {
         return "screen";
     }
 
+    //Form tag x-www 데이터 처리
+
+        // 1. 우선 입력 요청 화면을 사용자에게 전달
+    @GetMapping("form-screen")
+    public String formScreen(){
+        return "formScreen";
+    }
+    @PostMapping("form-post-handle")
+    // form태그를 통한 body의 데이터 형태가 key1=value1&key2=value2.. -> parameter 방식과 똑같으니까
+    @ResponseBody
+    // 대부분 클래스를 만들기 위해 받아 옴 그럴때는, 데이터 바인딩을 사용하여 객체로 변환을 시킴 (밑)
+    public String formPostHandle(@RequestParam(value = "name") String name,
+                                 @RequestParam(value = "email") String email,
+                                 @RequestParam(value = "passWd") String passWd){
+        System.out.println(name);
+        System.out.println(email);
+        System.out.println(passWd);
+        return "정상처리";
+    }
+
+    @PostMapping("form-post-handle2")
+    @ResponseBody
+    // Spring에서 Hello클래스의 인스턴스를 자동 매핑하여 생성
+    // formdata형식 즉, x-www-url인코딩 형식의 경우 사용
+    // 이름 데이터 바인딩이라 부른다.(Hello클래스에 setter 필수)
+    public String formPostHandle2(Hello hello){
+        System.out.println(hello);
+        return "정상처리";
+    }
+
+//----------------------------------------------------------------------------------------------------
+    // jason 데이터 처리
+        // 별도의 axoios와 같은 Json 데이터 처리 과정이 필요
+        // Form tag x-www 데이터와 같은 화면에서 처리 할 수 없다.
+    @GetMapping("json-screen")
+    public String jsonScreen(){
+        return "hello-json-screen";
+    }
+    @PostMapping("/json-post-handle1")
+    @ResponseBody
+                            // @RequestBody Json으로 Post 요청이 들어왔을때 body에서 data를 꺼내기위해 사용
+    public String jsonPostHandle1(@RequestBody Map<String,String> body){
+        System.out.println(body.get("name"));
+        System.out.println(body.get("email"));
+        System.out.println(body.get("passWd"));
+        Hello hello = new Hello();
+        hello.setName(body.get("name"));
+        hello.setEmail(body.get("email"));
+        hello.setPasssWd(body.get("passWd"));
+        return "ok"; //JS에 변수에 담기는 값
+    }
+
+    // 2. 데이터 구조가 예측하기 힘들때는 jsNode로 받아주기
+    @PostMapping("/json-post-handle2")
+    @ResponseBody
+    public String jsonPostHandle2(@RequestBody JsonNode body){
+        Hello hello = new Hello();
+        hello.setName(body.get("name").asText());
+        hello.setEmail(body.get("email").asText());
+        hello.setPasssWd(body.get("passWd").asText());
+        return "ok"; //JS에 변수에 담기는 값
+    }
+
+    // 3. 객체로 직접 받기
+    @PostMapping("/json-post-handle3")
+    @ResponseBody
+    public String jsonPostHandle3(@RequestBody Hello hello){
+        System.out.println(hello);
+        return "ok"; //JS에 변수에 담기는 값
+    }
 
 }
