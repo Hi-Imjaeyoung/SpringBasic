@@ -1,5 +1,6 @@
 package com.encore.basic.controller;
 
+import com.encore.basic.domain.Hello;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,15 +19,23 @@ public class HelloController {
     // data만을 return 할때는 @ResponseBody를 붙인다.(CSR, Rest API 방식)
     // URL 지정 가능 (사용자의 요청을 분기처리 가능)
     @GetMapping("string")
+                     //url 패턴          // 메서드로 기능 명시
+//    @RequestMapping(value = "string",method = RequestMethod.GET)
     @ResponseBody
     public String helloString(){
         return "hello_string";
     }
 
+
     @GetMapping("json")
     @ResponseBody
-    public String helloJson(){
-        return "hello_string";
+    public Hello helloJson(){
+        Hello hello = new Hello();
+        hello.setName("재영");
+        hello.setEmail("naver");
+        hello.setPasssWd("12343");
+        System.out.println(hello);
+        return hello;
     }
 
     @GetMapping("screen")
@@ -44,11 +53,12 @@ public class HelloController {
     }
 
     // pathvariable 방식은 url을 통해 자원의 구조를 명확하게 표현할 수 있어 좀더 restful api 디자인에 적합하다
+    // id를 표현하기 자연스러워서 그러듯..?
     @GetMapping("screen-model-path/{id}")
-    // ?name=재영 의 방식으로 호출 : parameter 호출 방식!
     public String helloScreenModelPath(@PathVariable int id, Model model){
         model.addAttribute("MyData",id);
         return "screen";
     }
+
 
 }

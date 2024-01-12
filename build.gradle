@@ -31,6 +31,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	// test를 위한 의존성
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// lombok 의존성 추가
+	// Getter, Setter 및 로그관련 의존성
+	// 인텔리제이 plugin 설치 해야함
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
 }
 
 // 테스트 라이브러리로 주로 JUnit을 사용
