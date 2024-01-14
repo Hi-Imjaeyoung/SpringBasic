@@ -5,7 +5,7 @@ public class Member {
     private String id;
     private String pwd;
 
-    Member(MemberDTO memberDTO){
+    public Member(MemberDTO memberDTO){
         this.name = memberDTO.getName();
         this.id = memberDTO.getId();
         this.pwd = memberDTO.getPwd();
