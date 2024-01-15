@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Member Create screen</title>
 </head>
 <body>
-    <form action="http://localhost:8080/">
-
+    <div th:replace="member/header :: headerFragment"></div>
+    <br>
+    <form action="http://localhost:8080/member/create" METHOD="POST" >
+        <lable fo="name"> 이름
+            <input name="name" type="text"><br>
+        </lable>
+        <lable fo="email"> email
+            <input name="email" type="text"><br>
+        </lable>
+        <lable fo="pwd"> 비밀번호
+            <input name="pwd" type="password"><br>
+        </lable>
+        <input type="submit">
     </form>
 
 </body>
