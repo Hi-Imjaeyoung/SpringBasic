@@ -8,10 +8,10 @@
     <div th:replace="member/header :: headerFragment"></div>
     <br>
     <h2>회원 상세보기</h2>
-    <div th:text="${targetMember.name}">이름</div>
-    <div th:text="${targetMember.email}">이메일</div>
-    <div th:text="${targetMember.pwd}">비밀번호</div>
-    <div th:text="${targetMember.createTime}">아이디 생성시간</div>
+    <p>이름 : <span th:text="${targetMember.name}"></span></p>
+    <p>이메일 : <span th:text="${targetMember.email}"></span></p>
+    <p>비밀번호 : <span th:text="${targetMember.pwd}"></span></p>
+    <p>아이디 생성시간 : <span th:text="${targetMember.createTime}"></span></p>
 
 </body>
 </html>

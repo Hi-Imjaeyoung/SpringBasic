@@ -28,3 +28,25 @@
 #    url: jdbc:mariadb://localhost:3307/member
 #    username: root
 #    password: 1234
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+                                        #스키마 명
+    url: jdbc:mariadb://localhost:3306/board1
+    username: root
+    password: 1234
+  jpa:
+    database: mysql
+#    innoDB 엔진사용 설정     #jap의 주요 구현체
+    database-platform: org.hibernate.dialect.MariaDBDialect
+#    스키마는 사전 생성 필요!
+    generate-ddl: true
+    hibernate:
+#      create 옵션은 매법 테이블을 drop후 생성
+#      update 옵션은 변경사항만 alter를 적용
+#      validate는 실제DB와의 차이만을 check
+#      실무에서는 update 또는 validate 사용
+      ddl-auto: create
+#   jpa가 자동으로 쿼리를 실행할때, 쿼리가 console창에 보여지도록함
+    show_sql: true
