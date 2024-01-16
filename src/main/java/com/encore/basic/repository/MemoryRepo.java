@@ -3,11 +3,13 @@ package com.encore.basic.repository;
 import com.encore.basic.domain.Member;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
 public class MemoryRepo implements MemberRepo {
     private final List<Member> memberDB;
+    static int totalId = 0;
     public MemoryRepo(){
        memberDB = new ArrayList<>();
     }
@@ -15,18 +17,28 @@ public class MemoryRepo implements MemberRepo {
 
     //일반적으로 DTO 객체는 서비스 단에서 모두 처리
     @Override
-    public void memberCreate(Member member){
+    public Member save(Member member){
+        totalId+=1;
+        LocalDateTime localDateTime = LocalDateTime.now();
+        member.setId(totalId);
+        member.setCreateTime(localDateTime);
         memberDB.add(member);
+        return member;
     }
 
     @Override
-    public List<Member> members(){
+    public List<Member> findAll(){
         return memberDB;
     }
 
     @Override
-    public Member memberFind(int id){
-        return memberDB.get(id-1);
+    public Optional<Member> findById(int id){
+        for(Member now : memberDB){
+            if(now.getId()==id){
+                return Optional.of(now);
+            }
+        }
+         return Optional.empty();
     }
 
 
