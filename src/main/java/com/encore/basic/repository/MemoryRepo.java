@@ -1,20 +1,39 @@
 package com.encore.basic.repository;
 
 import com.encore.basic.domain.Member;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class MemoryRepo {
-    static  List<Member> memberList = new ArrayList<>();
-    public static void addMember(Member member){
-        memberList.add(member);
+@Repository
+public class MemoryRepo implements MemberRepo{
+    private final List<Member> members;
+
+    public MemoryRepo(){
+        members = new ArrayList<>();
     }
-    public static String showAllMember(){
-        StringBuilder sb = new StringBuilder();
-        for(Member member : memberList){
-            sb.append(member.toString());
+
+    @Override
+    public Member save(Member member) {
+        members.add(member);
+        return member;
+    }
+
+    @Override
+    public Optional<Member> findById(int id) {
+        Member member = null;
+        for(Member now : members){
+            if(now.getId()==id){
+                member = now;
+            }
         }
-        return sb.toString();
+        return Optional.ofNullable(member);
+    }
+
+    @Override
+    public List<Member> findAll() {
+        return members;
     }
 }

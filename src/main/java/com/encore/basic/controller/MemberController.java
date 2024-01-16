@@ -1,10 +1,12 @@
 package com.encore.basic.controller;
 
 import com.encore.basic.domain.Member;
-import com.encore.basic.domain.MemberDTO;
+import com.encore.basic.domain.MemberRequest;
+import com.encore.basic.domain.MemberResponse;
 import com.encore.basic.repository.MemoryRepo;
+import com.encore.basic.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,43 +24,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MemberController {
 
-    @GetMapping("members")
-    public String members(){
-        return "member-list";
+    private final MemberService memberService;
+
+    @Autowired
+    public MemberController(MemberService memberService){
+        this.memberService =memberService;
     }
 
-    @GetMapping("member/create-screen")
+    @GetMapping("/")
+    public String home(){
+        return "home";
+    }
+
+    @GetMapping("create-id")
     public String createScreen(){
-        return "member/member-create";
+        return "create-screen";
     }
 
-    //Param을 다 받아서 처리
-    @GetMapping("member/create-check")
-    @ResponseBody
-    public String memberCreateCheck(@RequestParam(value="name") String name,
-                                    @RequestParam(value="id") String id,
-                                    @RequestParam(value="pwd") String pwd){
-        MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setName(name);
-        memberDTO.setId(id);
-        memberDTO.setPwd(pwd);
-        MemoryRepo.addMember(new Member(memberDTO));
-        return "가입완료";
+    @PostMapping("create-id")
+    public String memberPost(MemberRequest memberRequest){
+        memberService.save(memberRequest);
+        return "redirect:/members";
     }
 
-    // 데이터 바인딩을 사용하여 처리
-    @PostMapping("member/create-check2")
-    @ResponseBody
-    public String memberCreateCheck2(MemberDTO memberDTO){
-        MemoryRepo.addMember(new Member(memberDTO));
-        return "가입완료";
-    }
-
-    @GetMapping("member/show-members")
-    @ResponseBody
-    public String showMember(){
-        return MemoryRepo.showAllMember();
-    }
 
 
 
