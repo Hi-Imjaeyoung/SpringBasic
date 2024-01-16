@@ -2,6 +2,7 @@ package com.encore.basic.controller;
 
 import com.encore.basic.domain.Member;
 import com.encore.basic.domain.MemberRequestDto;
+import com.encore.basic.domain.MemberResponseDto;
 import com.encore.basic.repository.MemoryRepo;
 import com.encore.basic.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.NoSuchElementException;
 
 // 회원가입(글쓰기)과 회원목록(글 목록) 조회 + 회원(글) 상세조회 + 회원 수정 + 회원 삭제 => CRUD
 
@@ -81,9 +84,13 @@ public class MemberController {
     //find
     @GetMapping("member/find")
     public String memberFind(@RequestParam(value="id") int id,Model model){
-       Member member = memberService.memberFind(id);
-       model.addAttribute("targetMember",member);
-       return "member/detail";
+        try {
+            MemberResponseDto member = memberService.memberFind(id);
+            model.addAttribute("targetMember",member);
+        }catch (NoSuchElementException e){
+            return "member/404-error-page";
+        }
+        return "member/detail";
     }
 
 }
