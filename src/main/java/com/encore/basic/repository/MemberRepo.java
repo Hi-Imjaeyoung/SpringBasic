@@ -12,4 +12,6 @@ public interface MemberRepo {
     public Member save(Member member);
 // TODO : int -> long으로 바꿀거여
     public Optional<Member> findById(int id);
+
+    public void delete(Member member);
 }
