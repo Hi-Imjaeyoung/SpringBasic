@@ -9,11 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 
 // 회원가입(글쓰기)과 회원목록(글 목록) 조회 + 회원(글) 상세조회 + 회원 수정 + 회원 삭제 => CRUD
@@ -76,8 +74,16 @@ public class MemberController {
 
     @PostMapping("member/create")
     public String memberPost(MemberRequestDto memberRequestDto){
+        // transactional 및 예외 처리 test
+//        try {
+//            memberService.memberCreate(memberRequestDto);
+//            // url을 redirect
+//            return "redirect:/members";
+//        }catch (IllegalArgumentException e){
+//            return "member/404-error-page";
+//        }
         memberService.memberCreate(memberRequestDto);
-        // url을 redirect
+            // url을 redirect
         return "redirect:/members";
     }
 
@@ -87,10 +93,29 @@ public class MemberController {
         try {
             MemberResponseDto member = memberService.memberFind(id);
             model.addAttribute("targetMember",member);
-        }catch (NoSuchElementException e){
+        }catch (EntityNotFoundException e){
             return "member/404-error-page";
         }
         return "member/detail";
+    }
+
+    //delete
+    @GetMapping("member/delete")
+    public String memberDelete(@RequestParam(value="id") int id){
+        try {
+            memberService.memberDelete(id);
+        }catch (EntityNotFoundException e){
+            return "member/404-error-page";
+        }
+        return "redirect:/members";
+    }
+
+    //update
+    @PostMapping("member/update")
+    // TODO : 입력에 대한 예외는 프론트에서 하나요?
+    public String memberUpdate(MemberRequestDto memberRequestDto){
+        MemberResponseDto memberResponseDto = memberService.memberUpdate(memberRequestDto);
+        return "redirect:/member/find?id="+memberResponseDto.getId();
     }
 
 }

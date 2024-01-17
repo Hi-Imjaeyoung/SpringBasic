@@ -9,6 +9,5 @@ import org.springframework.stereotype.Repository;
 // 상속 시 entity명과 해당 entity의 pk타입을 명시
 // 구현클래스와 스팩은 simpleJpaRepository class에 있고,
 // 실질적인 구동 상황에서 hibernate구현체에 동작을 위임한다.
-public interface SpringDataMemberRepository extends MemberRepo, JpaRepository<Member,Integer> {
-
+public interface SpringDataMemberRepository extends MemberRepo,JpaRepository<Member,Integer> {
 }

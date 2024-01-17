@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Member Detail</title>
+    <style>
+        #update-form{
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div th:replace="member/header :: headerFragment"></div>
@@ -11,7 +16,31 @@
     <p>이름 : <span th:text="${targetMember.name}"></span></p>
     <p>이메일 : <span th:text="${targetMember.email}"></span></p>
     <p>비밀번호 : <span th:text="${targetMember.pwd}"></span></p>
-    <p>아이디 생성시간 : <span th:text="${targetMember.createTime}"></span></p>
+    <p>아이디 생성시간 : <span th:text="${targetMember.created_time}"></span></p>
+    <button onclick="show()">수정</button>
+    <a th:href="@{/member/delete(id=${targetMember.id})}"><button style="color: red;"><b>삭제</b></button></a>
 
+    <div id="update-form">
+        <form action="http://localhost:8080/member/update" METHOD="POST">
+            <p> id
+                <input name="id" type="text" th:value="${targetMember.id}" readonly><br>
+            </p>
+            <p> 이름
+                <input name="name" type="text" th:value="${targetMember.name}"><br>
+            </p>
+            <p> email
+                <input name="email" type="text" th:value="${targetMember.email}" readonly><br>
+            </p>
+            <p> 비밀번호
+                <input name="pwd" type="text" th:value="${targetMember.pwd}"><br>
+            </p>
+            <input type="submit" value="수정완료">
+        </form>
+    </div>
+    <script>
+        function show(){
+            document.getElementById('update-form').style.display = 'block';
+        }
+    </script>
 </body>
 </html>

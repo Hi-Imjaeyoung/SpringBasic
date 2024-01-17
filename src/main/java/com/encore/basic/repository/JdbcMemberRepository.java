@@ -50,7 +50,7 @@ public class JdbcMemberRepository implements MemberRepo{
                 System.out.println(now.toString());
                 Member member = new Member(name,email,pwd);
                 member.setId(id);
-                member.setCreateTime(now);
+                member.setCreated_time(now);
                 members.add(member);
             }
         }catch (SQLException e){
@@ -73,10 +73,15 @@ public class JdbcMemberRepository implements MemberRepo{
                     ,resultSet.getString("email")
                     ,resultSet.getString("pwd")));
             member.get().setId(resultSet.getInt("id"));
-            member.get().setCreateTime(resultSet.getTimestamp("create_time").toLocalDateTime());
+            member.get().setCreated_time(resultSet.getTimestamp("create_time").toLocalDateTime());
         }catch (SQLException e){
             e.printStackTrace();
         }
         return member;
+    }
+
+    @Override
+    public void delete(Member member) {
+
     }
 }

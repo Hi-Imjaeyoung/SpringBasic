@@ -12,5 +12,5 @@ public class MemberResponseDto {
     private String name;
     private String email;
     private String pwd;
-    private LocalDateTime createTime;
+    private LocalDateTime created_time;
 }

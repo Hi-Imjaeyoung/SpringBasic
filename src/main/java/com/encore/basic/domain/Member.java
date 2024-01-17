@@ -1,6 +1,8 @@
 package com.encore.basic.domain;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -33,22 +35,26 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Setter
     // String = varchar로 변환
     private String name;
 
     @Column(nullable = false,length = 50)
     private String email;
 
+    @Setter
     private String pwd;
 
     @Setter
     @Column(name = "created_time") // name 옵션을 통해 DB 컬럼명 별도로 지정가능
-    private LocalDateTime createTime;
+    @CreationTimestamp
+    private LocalDateTime created_time;
+    @UpdateTimestamp
+    private LocalDateTime updatedTime;
 
     public Member(String name, String email,String pwd){
         this.name =name;
         this.email =email;
         this.pwd = pwd;
-        this.createTime = LocalDateTime.now();
     }
 }

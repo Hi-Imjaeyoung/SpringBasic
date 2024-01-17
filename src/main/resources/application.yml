@@ -44,10 +44,14 @@ spring:
 #    스키마는 사전 생성 필요!
     generate-ddl: true
     hibernate:
-#      create 옵션은 매법 테이블을 drop후 생성
-#      update 옵션은 변경사항만 alter를 적용
-#      validate는 실제DB와의 차이만을 check
+#      create 옵션은 매법 테이블을 drop후 생성 > 모든 변경 사항 반영 (컬럼 길이..) 처음 날릴때 잘 하기.
+#      update 옵션은 변경사항만 alter를 적용 > 일부 변경 사항은 반영 안해줌 > raw DDL 커리문으로 변경
+#      validate는 실제DB와의 차이만을 check > DB 직접 반영 x
 #      실무에서는 update 또는 validate 사용
-      ddl-auto: create
+      ddl-auto: update
 #   jpa가 자동으로 쿼리를 실행할때, 쿼리가 console창에 보여지도록함
     show_sql: true
+
+#mapper 파일의 위치를 설정
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml

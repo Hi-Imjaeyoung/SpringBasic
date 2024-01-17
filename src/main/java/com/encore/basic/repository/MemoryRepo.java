@@ -21,7 +21,7 @@ public class MemoryRepo implements MemberRepo {
         totalId+=1;
         LocalDateTime localDateTime = LocalDateTime.now();
         member.setId(totalId);
-        member.setCreateTime(localDateTime);
+        member.setCreated_time(localDateTime);
         memberDB.add(member);
         return member;
     }
@@ -40,6 +40,8 @@ public class MemoryRepo implements MemberRepo {
         }
          return Optional.empty();
     }
+    @Override
+    public void delete(Member member) {
 
-
+    }
 }
