@@ -8,7 +8,10 @@
     <select id="findById" resultType="com.encore.basic.domain.Member" parameterType="Integer">
         select * from member where id=#{id};
     </select>
-    <insert id="save">
-        insert into member(name,email,pwd) values(#{name},#{email},#{pwd});
-    </insert>
+<!--    <insert id="save">-->
+<!--        insert into member(name,email,pwd) values(#{name},#{email},#{pwd});-->
+<!--    </insert>-->
+    <select id="save" resultType="com.encore.basic.domain.Member">
+        insert into member(name,email,pwd,created_time) values(#{name},#{email},#{pwd},#{created_time});
+    </select>
 </mapper>
