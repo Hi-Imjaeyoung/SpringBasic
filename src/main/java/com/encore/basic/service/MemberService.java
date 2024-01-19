@@ -57,7 +57,7 @@ public class MemberService {
     // 무조건 DTO를 써라
                                                 // uncheck이긴 하지만  명시해주는 것이 좋다
     public MemberResponseDto memberFind(int id) throws EntityNotFoundException{
-        Member member = memberRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+        Member member = memberRepo.findById(id).orElseThrow(()->new EntityNotFoundException("해당 id의 member가 존재하지 않습니다."));
         MemberResponseDto memberResponseDto = null;
         return new MemberResponseDto(member.getId(), member.getName(), member.getEmail(), member.getPwd(), member.getCreated_time());
     }
@@ -69,8 +69,11 @@ public class MemberService {
     public MemberResponseDto memberUpdate(MemberRequestDto memberRequestDto) {
         // 바로 새  member를 만들면 그 값이 있는지 없는지 검증을 못한다.
         Member member = memberRepo.findById(memberRequestDto.getId()).orElseThrow(EntityNotFoundException::new);
-        member.setName(memberRequestDto.getName());
-        member.setPwd(memberRequestDto.getPwd());
+//        // TODO : Method화 시켜라
+//        member.setName(memberRequestDto.getName());
+//        member.setPwd(memberRequestDto.getPwd());
+        member.updateMember(memberRequestDto.getName(),memberRequestDto.getPwd());
+        Member.test();
         memberRepo.save(member);
         return new MemberResponseDto(member.getId(), member.getName(), member.getEmail(), member.getPwd(), member.getCreated_time());
     }

@@ -74,7 +74,7 @@ public class MemberController {
 
     @PostMapping("member/create")
     public String memberPost(MemberRequestDto memberRequestDto){
-        // transactional 및 예외 처리 test
+        // transactional 및 예외 처리
 //        try {
 //            memberService.memberCreate(memberRequestDto);
 //            // url을 redirect

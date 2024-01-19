@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
 import java.util.Map;
 
 //HTTP 통신을 매우 편하게 할 수 있다
@@ -135,4 +138,27 @@ public class HelloController {
         return "ok"; //JS에 변수에 담기는 값
     }
 
+    @PostMapping("httpservlet")
+    @ResponseBody
+    public String httpServletTest(HttpServletRequest req){
+        // HttpServletRequest에서 Header 정보 직접 추출
+        // (dispatcher를 통해서 http 메시지가 req로 변환 되어짐
+        System.out.println(req.getContentType());
+        System.out.println(req.getMethod());
+        // Session : 로그인 정보에서 필요한 정보값을 추출할때 많이 사용
+        System.out.println(req.getSession());
+        System.out.println(req.getHeader("Accept"));
+
+        // HttpServletRequest에서 body정보 추출
+        System.out.println(req.getParameter("test1"));
+        System.out.println(req.getParameter("test2"));
+        // req에서 getReader()를 통해 BufferedReader로 받아 직접 파싱
+        return "ok";
+    }
+
+    @GetMapping("/hello-servlet-jsp-get")
+    public String helloServletJspGet(Model model){
+        model.addAttribute("myData", "jsp test data");
+        return "hello-jsp";
+    }
 }

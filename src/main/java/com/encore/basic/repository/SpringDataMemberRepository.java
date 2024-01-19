@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 // 구현클래스와 스팩은 simpleJpaRepository class에 있고,
 // 실질적인 구동 상황에서 hibernate구현체에 동작을 위임한다.
 public interface SpringDataMemberRepository extends MemberRepo,JpaRepository<Member,Integer> {
+    // sqlException 을 runtime으로 변환해준다. -> transactinoal rollback에 걸린다
 }

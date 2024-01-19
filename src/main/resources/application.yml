@@ -31,6 +31,14 @@
 #    password: 1234
 
 spring:
+#  Controller와 jsp 사용시에 경로와 확장자 설정
+#  기본설정이 타임리프이므로, 타임리프 의존성 제거해야 jsp 사용가능
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/vewis/
+#      suffix: .jsp
+
+#  http://localhost:8080/swagger-ui/   (스웨거 url)
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
                                         #스키마 명
@@ -51,6 +59,11 @@ spring:
       ddl-auto: update
 #   jpa가 자동으로 쿼리를 실행할때, 쿼리가 console창에 보여지도록함
     show_sql: true
+#  springboot 2.4이상에서는 기본적으로 pathPatternParser를 사용하고 있는데
+#  이는 이전버전과 다른 경로매칭 규칙을 가지고 있어, springfox와 같은 일부라이브러이에서는 문제 발생.
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 #mapper 파일의 위치를 설정
 mybatis:

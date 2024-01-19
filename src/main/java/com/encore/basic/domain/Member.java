@@ -57,4 +57,10 @@ public class Member {
         this.email =email;
         this.pwd = pwd;
     }
+
+    public void updateMember(String name,String pwd){
+        this.name = name;
+        this.email= pwd;
+    }
+    public static void test(){};
 }
